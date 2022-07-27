@@ -1,0 +1,37 @@
+﻿namespace Flexcel.Internal;
+
+public static class AddressHelper
+{
+    /// <summary>
+    /// Получает адрес Excel ячейки (0,0) -> A1
+    /// </summary>
+    /// <param name="column">Номер колонки от 0</param>
+    /// <param name="row">Номер строки от 0</param>
+    /// <returns></returns>
+    public static string GetCellAddress(int column, long row)
+    {
+        
+        if (column! < 0)
+            throw new ArgumentOutOfRangeException(nameof(column), "Should be more or equal zero");
+        
+        if (row < 0)
+            throw new ArgumentOutOfRangeException(nameof(row), "Should be more or equal zero");
+                
+        const int columnsRoot = 'Z' - 'A' + 1;
+        const int letterOffset = 'A' - 1;
+        var columnAddress = new string(GetRooted(column + 1, columnsRoot).Select(d => (char)(d + letterOffset)).Reverse().ToArray());
+        return $"{columnAddress}{row+1}";
+    }
+
+    private static IEnumerable<int> GetRooted(int origin, int root)
+    {
+        if (root < 0)
+            throw new ArgumentOutOfRangeException(nameof(root), "Should be more then zero");
+
+        do
+        {
+            yield return origin % root;
+            origin /= root;
+        } while (origin > 0);
+    }
+}
