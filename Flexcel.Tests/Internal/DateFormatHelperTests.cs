@@ -9,7 +9,7 @@ public class DateFormatHelperTests : TestBaseSimple
 {
     [Test]
     [TestCase(typeof(DateTime), true)]
-    [TestCase(typeof(DateTimeOffset), true)]
+    [TestCase(typeof(DateTimeOffset), false)]
     [TestCase(typeof(object), false)]
     [TestCase(typeof(int), false)]
     [TestCase(typeof(long), false)]
