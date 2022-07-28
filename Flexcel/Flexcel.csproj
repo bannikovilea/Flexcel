@@ -14,8 +14,8 @@
         <PackageLicenseUrl>https://github.com/bannikovilea/Flexcel/blob/main/LICENSE</PackageLicenseUrl>
         <license>https://github.com/bannikovilea/Flexcel/blob/main/LICENSE</license>
         <RepositoryUrl>https://github.com/bannikovilea/Flexcel</RepositoryUrl>
-        <PackageVersion>0.1.0</PackageVersion>
-        <Version>0.1.0</Version>
+        <PackageVersion>0.1.1</PackageVersion>
+        <Version>0.1.1</Version>
     </PropertyGroup>
 
     <ItemGroup>
