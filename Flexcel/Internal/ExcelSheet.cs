@@ -4,7 +4,7 @@ using OfficeOpenXml;
 
 namespace Flexcel.Internal;
 
-public class ExcelSheet<TSourceDocument> : IExcelSheet<TSourceDocument>
+internal class ExcelSheet<TSourceDocument> : IExcelSheet<TSourceDocument>
 {
     private readonly ExcelWorksheet _worksheet;
     private readonly List<IExcelColumn<TSourceDocument>> _columns;
@@ -28,11 +28,11 @@ public class ExcelSheet<TSourceDocument> : IExcelSheet<TSourceDocument>
     {
         InitColumnsIfNeeded();
 
-        var values = _columns.Select(c => c.GetValue(row));
         var columnNumber = 0;
-        foreach (var value in values)
+        foreach (var column in _columns)
         {
-            _worksheet.Cells[AddressHelper.GetCellAddress(columnNumber, _currentRow)].Value = value;
+            _worksheet.Cells[AddressHelper.GetCellAddress(columnNumber, _currentRow)].Value = column.GetValue(row);
+            _worksheet.Cells[AddressHelper.GetCellAddress(columnNumber, _currentRow)].Style.Numberformat.Format = column.CellFormat();
             ++columnNumber;
         }
 

@@ -9,4 +9,8 @@ public class TestExportClass
     public string SomeString { get; set; }
     
     public bool SomeBool { get; set; }
+    
+    public DateTime DateTime { get; set; }
+    
+    public DateTimeOffset DateTimeOffset { get; set; }
 }

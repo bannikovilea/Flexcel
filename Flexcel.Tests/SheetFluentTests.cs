@@ -126,8 +126,6 @@ public class SheetFluentTests : TestBaseSimple
     [TestCaseSource(nameof(AvailableFields))]
     public void AddRow_ColumnAlreadyAddedAndRowIsNull_ShouldMapValue(Expression<Func<TestExportClass, object>> selector)
     {
-        var compiledSelector = selector.Compile();
-        
         var actual = sut.AddColumn(selector)
             .AddRow(null)
             .GetPackage()
@@ -244,6 +242,8 @@ public class SheetFluentTests : TestBaseSimple
         yield return d => d.LambdaField;
         yield return d => d.SomeString;
         yield return d => d.SomeBool;
+        yield return d => d.DateTime;
+        yield return d => d.DateTimeOffset;
         yield return d => d.Constant;
         yield return _ => TestExportClass.StaticConstant;
     }
