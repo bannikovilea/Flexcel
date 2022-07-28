@@ -23,7 +23,7 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Publish on version change
       id: publish_nuget
-      uses: alirezanet/publish-nuget@v3.0.0
+      uses: alirezanet/publish-nuget@v3.0.6
       with:
         PROJECT_FILE_PATH: Flexcel/Flexcel.csproj
         VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
