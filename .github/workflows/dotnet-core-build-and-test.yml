@@ -8,8 +8,6 @@ on:
 
 jobs:
   build:
-    env:
-      ngkey: ${{ secrets.NUGETKEY }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -31,6 +29,6 @@ jobs:
         VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
         TAG_COMMIT: true
         TAG_FORMAT: v*
-        NUGET_KEY: $ngkey
+        NUGET_KEY: ${{secrets.NUGETKEY}}
         NUGET_SOURCE: https://api.nuget.org
         INCLUDE_SYMBOLS: false
