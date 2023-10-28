@@ -17,11 +17,12 @@ internal class ExcelSheet<TSourceDocument> : IExcelSheet<TSourceDocument>
         _columns = new List<IExcelColumn<TSourceDocument>>();
     }
 
-    public void AddColumn<TValue>(Expression<Func<TSourceDocument, TValue>> mapFunction, string? columnTitle)
+    public IExcelColumn<TSourceDocument> AddColumn<TValue>(Expression<Func<TSourceDocument, TValue>> mapFunction, string? columnTitle)
     {
         if (_currentRow != 0)
             throw new Exception("Sheet already has rows");
         _columns.Add(new ExcelColumn<TSourceDocument, TValue>(mapFunction, columnTitle));
+        return _columns.Last();
     }
 
     public void AddRow(TSourceDocument row)
@@ -32,7 +33,6 @@ internal class ExcelSheet<TSourceDocument> : IExcelSheet<TSourceDocument>
         foreach (var column in _columns)
         {
             _worksheet.Cells[AddressHelper.GetCellAddress(columnNumber, _currentRow)].Value = column.GetValue(row);
-            _worksheet.Cells[AddressHelper.GetCellAddress(columnNumber, _currentRow)].Style.Numberformat.Format = column.CellFormat();
             ++columnNumber;
         }
 
@@ -61,6 +61,29 @@ internal class ExcelSheet<TSourceDocument> : IExcelSheet<TSourceDocument>
         }
 
         _columnsInited = true;
+    }
+
+    public void ApplySettings()
+    {
+        var columnNumber = 0;
+        foreach (var column in _columns)
+        {
+            var settings = column.GetSettings();
+            var startCellRow = _currentRow > 0 ? 1 : _currentRow;
+            _worksheet.Cells[$"{AddressHelper.GetCellAddress((int)startCellRow, columnNumber)}:{AddressHelper.GetCellAddress((int)_currentRow, columnNumber)}"].Style.Numberformat.Format = settings.CellFormat;
+            
+            if (settings.Width.HasValue)
+                _worksheet.Column(columnNumber).Width = settings.Width.Value;
+            if (settings.AutoFit == true)
+                _worksheet.Column(columnNumber).AutoFit();
+            
+            ++columnNumber;
+        }
+    }
+
+    public void AutoFitAllColumns()
+    {
+        _worksheet.Cells.AutoFitColumns();
     }
 
     private void InitColumnsIfNeeded()

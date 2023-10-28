@@ -4,7 +4,7 @@ public interface IExcelColumn<TRowDocument>
 {
     string? GetTitle();
     object? GetValue(TRowDocument source);
-    string? CellFormat();
+    ColumnSettings GetSettings();
 }
 
 public interface IExcelColumn<TRowDocument, TValue> : IExcelColumn<TRowDocument>

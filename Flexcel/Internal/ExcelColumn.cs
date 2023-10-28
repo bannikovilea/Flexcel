@@ -8,14 +8,19 @@ internal class ExcelColumn<TRowDocument, TValue> : IExcelColumn<TRowDocument, TV
 {
     private readonly string? _columnTitle;
     private readonly Func<TRowDocument, TValue> _extractFunc;
-    private readonly string? _cellFormat;
+    private readonly ColumnSettings _settings;
     
     public ExcelColumn(Expression<Func<TRowDocument, TValue>> extractFunc, string? columnTitle = null)
     {
-        this._extractFunc = extractFunc.Compile();
-        this._columnTitle = columnTitle ?? extractFunc.GetMappedParameterName();
-        _cellFormat =
-            DataTypeFormatHelper.GetDefaultDateFormatIfDateType(extractFunc.GetMappedParameterType() ?? typeof(TValue));
+        _extractFunc = extractFunc.Compile();
+        _columnTitle = columnTitle ?? extractFunc.GetMappedParameterName();
+        _settings = new ColumnSettings
+        {
+            CellFormat =
+                DataTypeFormatHelper.GetDefaultDateFormatIfDateType(extractFunc.GetMappedParameterType() 
+                                                                    ?? typeof(TValue))
+        };
+
     }
 
     public string? GetTitle() => _columnTitle;
@@ -25,7 +30,7 @@ internal class ExcelColumn<TRowDocument, TValue> : IExcelColumn<TRowDocument, TV
             ? _extractFunc(source) 
             : default;
 
-    public string? CellFormat() => _cellFormat;
+    public ColumnSettings GetSettings() => _settings;
 
     object? IExcelColumn<TRowDocument>.GetValue(TRowDocument source)
     {

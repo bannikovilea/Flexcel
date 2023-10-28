@@ -27,10 +27,10 @@ internal class ExcelSheetFluent<TRowDocument> : IExcelSheetFluent<TRowDocument>,
 
     public ExcelPackage GetPackage() => _parent.GetPackage();
 
-    public IExcelSheetFluent<TRowDocument> AddColumn<TValue>(Expression<Func<TRowDocument, TValue>> mapFunc, string? columnTitle = null)
+    public IExcelConfiguredColumnFluent<TRowDocument> AddColumn<TValue>(Expression<Func<TRowDocument, TValue>> mapFunc, string? columnTitle = null)
     {
-        _sheet.AddColumn(mapFunc, columnTitle);
-        return this;
+        var column = _sheet.AddColumn(mapFunc, columnTitle);
+        return new ExcelSheetColumnWrapper<TRowDocument>(this, ref column);
     }
 
     public IExcelSheetFluent<TRowDocument> AddColumns(IEnumerable<Expression<Func<TRowDocument, object>>> columns)
@@ -53,9 +53,17 @@ internal class ExcelSheetFluent<TRowDocument> : IExcelSheetFluent<TRowDocument>,
         return this;
     }
 
+    public IExcelSheetWithDataFluent<TRowDocument> AutoFitAllColumnsInSheet()
+    {
+        _sheet.AutoFitAllColumns();
+        return this;
+    }
+
     public Guid GetId() => _id;
     
     public string GetTittle() => _title;
 
     public void InitColumns() => _sheet.InitColumns();
+    
+    public void ApplySettings() => _sheet.ApplySettings();
 }

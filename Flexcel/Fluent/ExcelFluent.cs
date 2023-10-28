@@ -37,7 +37,10 @@ internal class ExcelFluent : IExcelFluent
     public ExcelPackage GetPackage()
     {
         foreach (var sheet in sheets.Values)
+        {
             sheet.InitColumns();
+            sheet.ApplySettings();
+        }
 
         return currentXLSX;   
     }

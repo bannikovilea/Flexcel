@@ -6,4 +6,5 @@ public interface IExcelSheetWithDataFluent<TRowDocument> : IExcelSheetFluent, IE
     IExcelSheetFluent<TNewRowDocument> AddSheetAndSelect<TNewRowDocument>(string sheetTitle, out Guid sheetId);
     IExcelSheetWithDataFluent<TRowDocument> AddRow(TRowDocument row);
     IExcelSheetWithDataFluent<TRowDocument> AddRows(IEnumerable<TRowDocument> rows);
+    IExcelSheetWithDataFluent<TRowDocument> AutoFitAllColumnsInSheet();
 }
