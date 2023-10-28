@@ -15,7 +15,7 @@ internal class ExcelColumn<TRowDocument, TValue> : IExcelColumn<TRowDocument, TV
         this._extractFunc = extractFunc.Compile();
         this._columnTitle = columnTitle ?? extractFunc.GetMappedParameterName();
         _cellFormat =
-            DateTypeHelper.GetDefaultDateFormatIfDateType(extractFunc.GetMappedParameterType() ?? typeof(TValue));
+            DataTypeFormatHelper.GetDefaultDateFormatIfDateType(extractFunc.GetMappedParameterType() ?? typeof(TValue));
     }
 
     public string? GetTitle() => _columnTitle;

@@ -1,6 +1,6 @@
 namespace Flexcel.Internal;
 
-public static class DateTypeHelper
+public static class DataTypeFormatHelper
 {
     private const string DefaultExportFormat = "yyyy-MM-dd HH:mm:ss";
     

@@ -13,14 +13,14 @@ internal class ExcelColumnByReflectionType<TRowDocument> : IExcelColumn<TRowDocu
     {
         _title = fieldInfo.Name;
         _extractFunc = document => fieldInfo.GetValue(document);
-        _cellFormat = DateTypeHelper.GetDefaultDateFormatIfDateType(fieldInfo.FieldType);
+        _cellFormat = DataTypeFormatHelper.GetDefaultDateFormatIfDateType(fieldInfo.FieldType);
     }
     
     public ExcelColumnByReflectionType(PropertyInfo fieldInfo)
     {
         _title = fieldInfo.Name;
         _extractFunc = document => fieldInfo.GetValue(document);
-        _cellFormat = DateTypeHelper.GetDefaultDateFormatIfDateType(fieldInfo.PropertyType);
+        _cellFormat = DataTypeFormatHelper.GetDefaultDateFormatIfDateType(fieldInfo.PropertyType);
     }
 
     public string? GetTitle() => _title;
