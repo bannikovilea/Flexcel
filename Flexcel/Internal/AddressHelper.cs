@@ -18,20 +18,19 @@ public static class AddressHelper
             throw new ArgumentOutOfRangeException(nameof(row), "Should be more or equal zero");
                 
         const int columnsRoot = 'Z' - 'A' + 1;
-        const int letterOffset = 'A' - 1;
-        var columnAddress = new string(GetRooted(column + 1, columnsRoot).Select(d => (char)(d + letterOffset)).Reverse().ToArray());
+        const int letterOffset = 'A';
+        var rooted = GetRooted(column + 1, columnsRoot);
+        var columnAddress = new string(rooted.Select(d => (char)(d + letterOffset)).Reverse().ToArray());
         return $"{columnAddress}{row+1}";
     }
 
-    private static IEnumerable<int> GetRooted(int origin, int root)
+    private static IEnumerable<int> GetRooted(int number, int root)
     {
-        if (root < 0)
-            throw new ArgumentOutOfRangeException(nameof(root), "Should be more then zero");
-
-        do
+        while (number > 0)
         {
-            yield return origin % root;
-            origin /= root;
-        } while (origin > 0);
+            var remainder = (number - 1) % root;
+            yield return remainder;
+            number = (number - 1) / root;
+        }
     }
 }

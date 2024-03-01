@@ -10,10 +10,13 @@ public class AddressHelperTests : TestBaseSimple
     [Test]
     [TestCase(0, 0, "A1")]
     [TestCase(0, 1, "A2")]
+    [TestCase(25, 1, "Z2")]
     [TestCase(0, 50, "A51")]
     [TestCase(1, 0, "B1")]
+    [TestCase(26, 0, "AA1")]
     [TestCase(30, 0, "AE1")]
     [TestCase(30, 30, "AE31")]
+    [TestCase(1169, 18423, "ARZ18424")]
     public void GetCellAddress_Always_ShouldReturnCorrectAddress(int col, long row, string expectedAddress)
     {
         Assert.That(AddressHelper.GetCellAddress(col, row), Is.EqualTo(expectedAddress));
