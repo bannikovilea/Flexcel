@@ -70,7 +70,7 @@ internal class ExcelSheet<TSourceDocument> : IExcelSheet<TSourceDocument>
         {
             var settings = column.GetSettings();
             var startCellRow = _currentRow > 0 ? 1 : _currentRow;
-            _worksheet.Cells[$"{AddressHelper.GetCellAddress((int)startCellRow, columnNumber)}:{AddressHelper.GetCellAddress((int)_currentRow, columnNumber)}"].Style.Numberformat.Format = settings.CellFormat;
+            _worksheet.Cells[$"{AddressHelper.GetCellAddress(columnNumber, startCellRow)}:{AddressHelper.GetCellAddress(columnNumber, (int)_currentRow)}"].Style.Numberformat.Format = settings.CellFormat;
             
             if (settings.Width.HasValue)
                 _worksheet.Column(columnNumber).Width = settings.Width.Value;

@@ -1,12 +1,16 @@
-﻿using Flexcel.Internal;
+﻿using System.Text.RegularExpressions;
+using Flexcel.Internal;
 using Flexcel.Tests.Infrastructure;
 using NUnit.Framework;
+using AutoFixture;
 
 namespace Flexcel.Tests.Internal;
 
 [Parallelizable]
 public class AddressHelperTests : TestBaseSimple
 {
+    private static readonly Regex OnlyLettersAndDigits = new Regex("^[A-Z0-9]+$", RegexOptions.Compiled);
+    
     [Test]
     [TestCase(0, 0, "A1")]
     [TestCase(0, 1, "A2")]
@@ -31,5 +35,17 @@ public class AddressHelperTests : TestBaseSimple
     public void GetCellAddress_InvalidArgs_ShouldThrow(int col, long row)
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => AddressHelper.GetCellAddress(col, row));
+    }
+
+    [Test]
+    [Parallelizable]
+    public void GetCellAddress_Always_ShouldReturnAddressWithOnlyDigitsAndLetters()
+    {
+        for (var column = 0; column < 10000; ++column) {
+            var row = Math.Abs(fixture.Create<int>());
+            var actual = AddressHelper.GetCellAddress(column, row);
+            
+            Assert.IsTrue(OnlyLettersAndDigits.IsMatch(actual));
+        }
     }
 }

@@ -8,7 +8,7 @@ using Flexcel.Internal;
 
 namespace Flexcel.Tests;
 
-public class SheetFluentTests : TestBaseSimple
+public partial class SheetFluentTests : TestBaseSimple
 {
     public override void SetUp()
     {
